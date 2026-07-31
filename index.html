@@ -97,7 +97,7 @@
   <body>
       <div class="container">
           <h1>🤖 AI Agent Router</h1>
-          <p class="subtitle">Sahi sawaal, sahi AI agent ko bhejo</p>
+          <p class="subtitle"> Ask the right question, get the right AI answer </p>
   
           <select id="category">
               <option value="coding">💻 Coding</option>
@@ -112,7 +112,7 @@
               placeholder="Apna sawaal yahan likho...">
           </textarea>
   
-          <button onclick="askAI()">🚀 Poochho AI se</button>
+          <button onclick="askAI()">🚀 Ask AI Now</button>
   
           <div class="loading" id="loading">⏳ AI soch raha hai...</div>
   
@@ -130,7 +130,7 @@
               if (!query.trim()) {
                   alert('Sawaal likho pehle!');
                   return;
-              }
+  }
   
               // Loading show karo
               document.getElementById('loading').style.display = 'block';
