@@ -1,0 +1,166 @@
+ 
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>AI Agent Router</title>
+      <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          
+          body {
+              font-family: Arial, sans-serif;
+              background: #1a1a2e;
+              color: white;
+              min-height: 100vh;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+  
+          .container {
+              background: #16213e;
+              padding: 40px;
+              border-radius: 15px;
+              width: 600px;
+              box-shadow: 0 0 30px rgba(0,0,0,0.5);
+          }
+  
+          h1 {
+              text-align: center;
+              color: #e94560;
+              margin-bottom: 10px;
+          }
+  
+          p.subtitle {
+              text-align: center;
+              color: #888;
+              margin-bottom: 30px;
+          }
+  
+          select, textarea, button {
+              width: 100%;
+              padding: 12px;
+              margin-bottom: 15px;
+              border-radius: 8px;
+              border: none;
+              font-size: 16px;
+          }
+  
+          select {
+              background: #0f3460;
+              color: white;
+          }
+  
+          textarea {
+              background: #0f3460;
+              color: white;
+              height: 120px;
+              resize: none;
+          }
+  
+          button {
+              background: #e94560;
+              color: white;
+              cursor: pointer;
+              font-weight: bold;
+              transition: 0.3s;
+          }
+  
+          button:hover { background: #c73652; }
+  
+          #response {
+              background: #0f3460;
+              padding: 20px;
+              border-radius: 8px;
+              min-height: 100px;
+              white-space: pre-wrap;
+              display: none;
+          }
+  
+          .loading {
+              text-align: center;
+              color: #e94560;
+              display: none;
+          }
+  
+          .agent-tag {
+              display: inline-block;
+              background: #e94560;
+              padding: 4px 12px;
+              border-radius: 20px;
+              font-size: 12px;
+              margin-bottom: 10px;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <h1>🤖 AI Agent Router</h1>
+          <p class="subtitle">Sahi sawaal, sahi AI agent ko bhejo</p>
+  
+          <select id="category">
+              <option value="coding">💻 Coding</option>
+              <option value="research">🔬 Research</option>
+              <option value="customer">🤝 Customer Service</option>
+              <option value="devops">⚙️ DevOps</option>
+              <option value="office">📧 Office</option>
+          </select>
+  
+          <textarea 
+              id="query" 
+              placeholder="Apna sawaal yahan likho...">
+          </textarea>
+  
+          <button onclick="askAI()">🚀 Poochho AI se</button>
+  
+          <div class="loading" id="loading">⏳ AI soch raha hai...</div>
+  
+          <div id="response">
+              <span class="agent-tag" id="agent-name"></span>
+              <div id="answer"></div>
+          </div>
+      </div>
+  
+      <script>
+          async function askAI() {
+              const category = document.getElementById('category').value;
+              const query = document.getElementById('query').value;
+  
+              if (!query.trim()) {
+                  alert('Sawaal likho pehle!');
+                  return;
+              }
+  
+              // Loading show karo
+              document.getElementById('loading').style.display = 'block';
+              document.getElementById('response').style.display = 'none';
+  
+              try {
+                  const response = await fetch(
+                      'https://syedshah12.app.n8n.cloud/webhook/ai-query',
+                      {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ category, query })
+                      }
+                  );
+  
+                  const data = await response.json();
+                  const answer = data.choices[0].message.content;
+  
+                  // Response dikhao
+                  document.getElementById('agent-name').textContent = category.toUpperCase() + ' Agent';
+                  document.getElementById('answer').textContent = answer;
+                  document.getElementById('response').style.display = 'block';
+  
+              } catch (error) {
+                  document.getElementById('answer').textContent = 'Error: ' + error.message;
+                  document.getElementById('response').style.display = 'block';
+              }
+  
+              document.getElementById('loading').style.display = 'none';
+          }
+      </script>
+  </body>
+  </html>
